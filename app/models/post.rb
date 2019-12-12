@@ -4,5 +4,18 @@ class Post < ActiveRecord::Base
   has_many :comments
   has_many :users, through: :comments
 
+  accepts_nested_attributes_for :categories
+
+  def categories_attributes=(attr)
+    attr.values.each do |cat_attr|
+      if cat_attr["name"].present?
+        category = Category.find_or_create_by(cat_attr)
+        self.categories << category
+      end
+    end
+  end
 
 end
+
+# Needed to add the if statement so that the new Category wasn't generated
+# # when the attribute for the name was blank.
