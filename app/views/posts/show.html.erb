@@ -1,1 +1,39 @@
+<div class="post-content">
+  <h1><%= @post.title %></h1>
+  <p><%= @post.content %></p>
+
+  <p>Categories: <% @post.categories.each do |category| %>
+    <%= category.name %>
+  <% end %></p>
+</div>
+<div id="comment-content">
+  <h3>Comments:</h3>
+  <% @post.comments.each do |comment| %>
+    <p><%= "#{comment.user.username} says: #{comment.content}" %></p>
+  <% end %>
+  <h3>Commentors:</h3>
+  <% @post.users.uniq.each do |user| %>
+    <p><%= link_to(user.username, user) %></p>
+  <% end %>
+</div>
+<div id="comment-form">
+  <%= form_for @comment = @post.comments.build do |f| %>
+    <%= f.hidden_field :post_id, value: @post.id %>
+    <div id="comment-user">
+      <%= f.label :user %>
+      <%= f.collection_select(:user_id, User.all, :id, :username) %>
+    </div>
+    <div id="new-user">
+      <%= f.fields_for :user, @comment.build_user do |user_field| %>
+        <% user_field.label :username %>
+        <%= user_field.text_field :username %>
+      <% end %>
+    </div>
+    <div id="comment-content">
+      <%= f.label :content %>
+      <%= f.text_area :content %>
+    </div>
+    <%= f.submit %>
+  <% end %>
+</div>
 
