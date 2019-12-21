@@ -1,1 +1,6 @@
 
+<h1> Your commented on this posts </h1>
+
+<% @user.comments.each do |c| %>
+  <%= link_to c.post.title, post_path(c.post) %>
+<% end %>
