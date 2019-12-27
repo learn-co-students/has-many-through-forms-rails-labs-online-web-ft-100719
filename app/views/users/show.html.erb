@@ -1,1 +1,8 @@
 
+<ul>
+  <% @user.posts.each do |post| %>
+    <li>
+      <a href="/posts/<%=post.id%>"><%= post.title %></a>
+    </li>
+  <% end %>
+</ul>
