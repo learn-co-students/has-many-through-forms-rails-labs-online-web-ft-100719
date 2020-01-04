@@ -1,23 +1,50 @@
-<h1>Post: @post.title</h1>
+<h1>Post: <%=@post.title%> </h1>
 
 <h3>Content:</h3>
-@post.content
+<%= @post.content %>
 <br>
-<h3>This post belongs to the following categories:</h3>
-<ul>
-  <% @post.categories.each do |c| %>
+<% all_categories = [] %>
+<% @post.categories.each do |c| %>
+  <% all_categories << c.name %>
+<% end %>
+
+<h3> Categories: <%= all_categories.join(' ') %> </h3>
+
+<h3>Comments:</h3>
+</ul>
+<% @post.comments.each do |c| %>
   <li>
-    <%= c.name %>
+    <%= c.user.username %> says: <%=c.content%>
     <br>
   </li>
   <% end %>
 </ul>
 
+<h3>Commenters:</h3>
 <ul>
-  <% @post.comments.each do |c| %>
+  <% @post.users.distinct.each do |u| %>
   <li>
-    <%= c.user %> said <%= c.content %>
+    <%= link_to u.username , user_path(u) %> 
     <br>
   </li>
   <% end %>
 </ul>
+
+
+
+
+<h3>Add a new comment:</h3>
+<%= form_for @post.comments.build do |comment_form| %>
+  <%= comment_form.hidden_field :post_id, value: @post.id %>
+  <%= comment_form.label :content, "New Comment" %>
+  <%= comment_form.text_field :content %>
+<p>
+    <%= comment_form.collection_select :user_id, User.all, :id, :username %>
+  </p>
+
+  <%= comment_form.fields_for :user, User.new do |user_fields| %>
+    <%= user_fields.label :username %>
+    <%= user_fields.text_field :username %>
+  <% end %>
+  <%= comment_form.submit %>  
+<%end%>

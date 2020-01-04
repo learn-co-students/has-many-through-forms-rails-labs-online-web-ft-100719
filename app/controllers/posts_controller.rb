@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   def show
-    @post = Post.find(params[:id])
+    @post = Post.find(params[:id]) 
+    #binding.pry 
   end
 
   def index
@@ -8,15 +9,15 @@ class PostsController < ApplicationController
   end
 
   def new
-    @post = Post.new
-    @post.comments.build
+    @post = Post.new 
   end
 
   def create
-    raise @post.inspect
+    #raise @post.inspect
+    #binding.pry
     @post = Post.create(post_params)
 
-    redirect_to post
+    redirect_to post_path(@post)
   end
 
   private
@@ -26,7 +27,7 @@ class PostsController < ApplicationController
                                  :content, 
                                  category_ids:[], 
                                  categories_attributes: [:name],
-                                 comments: [:comment_content,
+                                 comments: [:content,
                                             :user_ids])
   end
 end
