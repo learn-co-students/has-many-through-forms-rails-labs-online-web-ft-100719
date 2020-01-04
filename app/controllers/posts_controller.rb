@@ -9,16 +9,24 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
+    @post.comments.build
   end
 
   def create
-    post = Post.create(post_params)
+    raise @post.inspect
+    @post = Post.create(post_params)
+
     redirect_to post
   end
 
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, category_ids:[], categories_attributes: [:name])
+    params.require(:post).permit(:title, 
+                                 :content, 
+                                 category_ids:[], 
+                                 categories_attributes: [:name],
+                                 comments: [:comment_content,
+                                            :user_ids])
   end
 end

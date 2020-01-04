@@ -1,1 +1,23 @@
+<h1>Post: @post.title</h1>
 
+<h3>Content:</h3>
+@post.content
+<br>
+<h3>This post belongs to the following categories:</h3>
+<ul>
+  <% @post.categories.each do |c| %>
+  <li>
+    <%= c.name %>
+    <br>
+  </li>
+  <% end %>
+</ul>
+
+<ul>
+  <% @post.comments.each do |c| %>
+  <li>
+    <%= c.user %> said <%= c.content %>
+    <br>
+  </li>
+  <% end %>
+</ul>

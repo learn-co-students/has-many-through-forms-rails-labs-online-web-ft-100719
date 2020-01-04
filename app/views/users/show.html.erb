@@ -1,1 +1,12 @@
+<h1>User: @user.name</h1>
 
+<h3>Posts this user has commented on:</h3>
+<br>
+<ul>
+  <% @user.posts.each do |p| %>
+  <li>
+    <%= link_to "Title: #{p.title}", post_path(p) %>
+    <br>
+  </li>
+  <% end %>
+</ul>
